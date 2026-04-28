@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UptimeHealth AI Initiatives Roadmap</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet">
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UptimeHealth AI Initiatives Roadmap</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
 :root {
   --font: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --bg: #fafafa;
@@ -28,255 +28,271 @@
   --purple: #6A1B9A;
   --purple-light: #F3E5F5;
   --purple-border: #8E24AA;
-  --progress-gradient: linear-gradient(90deg, #43A047, #2E7D32);
+  --pink: #AD1457;
+  --pink-light: #FCE4EC;
+  --pink-border: #E91E63;
+  --gray: #455A64;
+  --gray-light: #ECEFF1;
+  --gray-border: #78909C;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
-.container { max-width: 920px; margin: 0 auto; padding: 36px 24px; }
-h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
-.subtitle { color: var(--text-muted); font-size: 15px; margin-bottom: 32px; }
-.progress-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; margin-bottom: 32px; }
-.progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-.progress-header span:first-child { font-size: 15px; font-weight: 700; }
-.progress-pct { font-size: 24px; font-weight: 800; color: var(--green); }
-.progress-track { height: 10px; background: #eee; border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
-.progress-fill { height: 100%; background: var(--progress-gradient); border-radius: 6px; transition: width 0.6s ease; }
-.progress-legend { display: flex; gap: 24px; flex-wrap: wrap; }
-.legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.filter-row { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
-.filter-row:last-of-type { margin-bottom: 32px; }
-.filter-label { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; min-width: 52px; }
-.filter-btn { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--text-secondary); font-family: var(--font); transition: all 0.12s ease; }
-.filter-btn:hover { border-color: #aaa; }
-.filter-btn.active { border: 2px solid var(--text); background: var(--text); color: #fff; }
-.phase-group { margin-bottom: 36px; }
-.phase-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-.phase-badge { color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 12px; font-weight: 600; }
-.phase-title { font-size: 16px; font-weight: 600; }
-.phase-time { font-size: 13px; color: var(--text-muted); }
-.card { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; cursor: pointer; background: var(--card-bg); transition: all 0.15s ease; position: relative; overflow: hidden; }
-.card:hover { border-color: #ccc; }
-.card-stripe { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
-.card-body { padding: 16px 20px 16px 24px; }
-.card-main { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-.card-content { flex: 1; }
-.card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
-.card-category { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.status-badge { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 10px; border: 1px solid; }
-.status-complete { color: var(--green); background: #fff; border-color: var(--green-border); }
-.status-in_progress { color: var(--orange); background: var(--orange-light); border-color: var(--orange-border); }
-.status-not_started { color: var(--text-muted); background: #f5f5f5; border-color: #ddd; }
-.card-name { font-size: 16px; font-weight: 600; line-height: 1.3; margin: 0; }
-.card-name.complete { color: var(--green); }
-.card-desc { font-size: 13.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5; }
-.card-metrics { display: flex; gap: 20px; flex-shrink: 0; padding-top: 4px; }
-.metric { text-align: center; }
-.metric-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
-.metric-dots { font-size: 14px; letter-spacing: 1px; }
-.metric-dots .filled { color: var(--text); }
-.metric-dots .filled.muted { color: #aaa; }
-.metric-dots .empty { color: #ddd; }
-.metric-text { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-.metric-time { font-size: 13px; font-weight: 600; color: #333; }
-.card.complete-card { background: var(--green-light); border-color: var(--green-border); }
-.card-expanded { padding: 0 20px 20px 24px; border-top: 1px solid rgba(0,0,0,0.06); display: none; }
-.card-expanded.show { display: block; }
-.steps-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin: 16px 0 10px; }
-.step { display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-start; }
-.step-number { width: 22px; height: 22px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-.step-number.complete-step { background: var(--green); font-size: 13px; }
-.step-text { font-size: 13.5px; line-height: 1.5; color: #333; }
-.value-box { margin-top: 16px; padding: 12px 14px; background: #fff; border-radius: 8px; border: 1px solid var(--border); }
-.value-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 6px; }
-.value-text { font-size: 13.5px; color: #333; line-height: 1.5; }
-.card-owner { margin-top: 10px; font-size: 12px; color: var(--text-muted); }
-.info-box { margin-top: 40px; padding: 20px; border-radius: 12px; border: 1px solid; }
-.info-box.revops { background: #f8f8f8; border-color: var(--border); }
-.info-box.principle { background: #FFFDE7; border-color: #FFF176; margin-top: 16px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-.info-box h3 { font-size: 15px; margin-bottom: 10px; }
-.info-box p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
-.loading { text-align: center; padding: 80px 20px; color: var(--text-muted); }
-.loading-spinner { width: 32px; height: 32px; border: 3px solid #eee; border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.error-box { text-align: center; padding: 60px 20px; color: #c62828; }
-.error-box h2 { margin-bottom: 10px; }
-.empty-state { text-align: center; padding: 40px; color: var(--text-muted); font-size: 15px; }
-@media (max-width: 700px) { .card-main { flex-direction: column; } .card-metrics { margin-top: 12px; } .progress-legend { gap: 16px; } h1 { font-size: 22px; } }
-</style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--font); background:var(--bg); color:var(--text); line-height:1.5; }
+.container { max-width:880px; margin:0 auto; padding:28px 16px; }
+h1 { font-size:24px; font-weight:800; letter-spacing:-0.5px; }
+.subtitle { color:var(--text-muted); font-size:14px; margin:4px 0 24px; }
+.progress-box { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:20px; }
+.progress-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.progress-label { font-size:14px; font-weight:700; }
+.progress-pct { font-size:13px; font-weight:700; color:var(--green); }
+.progress-bar { height:8px; background:#f0f0f0; border-radius:4px; overflow:hidden; margin-bottom:16px; }
+.progress-fill { height:100%; background:linear-gradient(90deg,#43A047,#2E7D32); border-radius:4px; transition:width .5s ease; }
+.status-row { display:flex; gap:12px; flex-wrap:wrap; }
+.status-badge { display:flex; align-items:center; gap:6px; font-size:13px; }
+.status-icon { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; font-size:11px; font-weight:700; }
+.q2-banner { background:#FFF8E1; border:1px solid #FFD54F; border-radius:10px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#5D4037; line-height:1.6; }
+.q2-badge { background:var(--orange-light); padding:1px 6px; border-radius:4px; font-weight:600; color:var(--orange); }
+.filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+.filters select { padding:6px 12px; border-radius:8px; border:1px solid #ddd; font-size:13px; background:#fff; cursor:pointer; font-family:var(--font); }
+.phase-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.phase-title { font-size:15px; font-weight:700; }
+.phase-time { font-size:12px; color:#999; }
+.phase-count { font-size:12px; color:#aaa; }
+.card { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; margin-bottom:8px; cursor:pointer; overflow:hidden; transition:box-shadow .15s ease; }
+.card:hover { box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.card-header { padding:14px 16px; display:flex; align-items:flex-start; gap:12px; }
+.card-arrow { font-size:11px; margin-top:2px; color:#bbb; }
+.card-body { flex:1; min-width:0; }
+.card-title-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px; }
+.card-name { font-size:14.5px; font-weight:600; color:var(--text); }
+.card-status { font-size:11px; padding:2px 8px; border-radius:4px; font-weight:600; }
+.card-meta { display:flex; gap:12px; flex-wrap:wrap; font-size:12px; color:var(--text-muted); }
+.card-detail { padding:0 16px 16px 38px; border-top:1px solid #f0f0f0; }
+.submitter-box { margin-top:12px; padding:8px 12px; background:#FFF8E1; border-radius:6px; font-size:12px; color:#5D4037; }
+.card-desc { font-size:13.5px; color:#444; margin-top:12px; line-height:1.6; }
+.steps-label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text-muted); margin-bottom:8px; margin-top:14px; }
+.step { display:flex; gap:8px; margin-bottom:6px; font-size:13px; color:#333; }
+.step-num { font-weight:600; min-width:18px; }
+.value-box { margin-top:14px; padding:10px 12px; background:#fafafa; border-radius:6px; border:1px solid #eee; }
+.value-label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text-muted); margin-bottom:4px; }
+.value-text { font-size:13px; color:#444; line-height:1.5; }
+.owner-line { margin-top:8px; font-size:12px; color:var(--text-muted); }
+.arch-box { margin-top:32px; padding:18px; background:#f8f8f8; border-radius:10px; border:1px solid var(--border); }
+.arch-box h3 { font-size:14px; font-weight:700; margin-bottom:8px; }
+.arch-box p { font-size:13px; color:var(--text-secondary); line-height:1.6; }
+.setup-msg { text-align:center; padding:60px 20px; }
+.setup-msg h2 { font-size:20px; margin-bottom:12px; }
+.setup-msg p { color:var(--text-muted); font-size:14px; line-height:1.8; max-width:500px; margin:0 auto; }
+.loading { text-align:center; padding:60px; font-size:15px; color:var(--text-muted); }
+.phase-group { margin-bottom:28px; }
+  </style>
 </head>
 <body>
 <div class="container" id="app">
-  <div class="loading" id="loading">
-    <div class="loading-spinner"></div>
-    <div>Loading initiatives from Google Sheets...</div>
-  </div>
+  <div class="loading">Loading initiatives from Google Sheets...</div>
 </div>
 <script>
-// ============================================================
-// DATA SOURCE — Native Google Sheet
-// Sheet ID: 1RI3C7bPSFU7S9zAPtx2hKNZRSG8ha_UAokrWJR0_clo
-// Tab gid: 1028859065 (Initiatives)
-// ============================================================
-var SHEET_ID = '1RI3C7bPSFU7S9zAPtx2hKNZRSG8ha_UAokrWJR0_clo';
-var SHEET_GID = '1028859065';
-var SHEET_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv&gid=' + SHEET_GID;
-// ============================================================
+const SHEET_ID = '1RI3C7bPSFU7S9zAPtx2hKNZRSG8ha_UAokrWJR0_clo';
+const SHEET_NAME = 'Initiatives';
+const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
 
-var PHASE_CONFIG = {
-  1: { bg: '#E8F5E9', border: '#43A047', badge: '#2E7D32', label: 'Quick Win', name: 'Phase 1 — Quick Wins', time: 'Weeks 1–4' },
-  2: { bg: '#E3F2FD', border: '#1E88E5', badge: '#1565C0', label: 'Core Infra', name: 'Phase 2 — Core Infrastructure', time: 'Weeks 4–10' },
-  3: { bg: '#FFF3E0', border: '#FB8C00', badge: '#E65100', label: 'Growth', name: 'Phase 3 — Growth Engines', time: 'Weeks 10–18' },
-  4: { bg: '#F3E5F5', border: '#8E24AA', badge: '#6A1B9A', label: 'Advanced', name: 'Phase 4 — Advanced Capabilities', time: 'Weeks 18–30' }
+const PHASE_CFG = {
+  1:{text:'#1565C0',label:'Phase 1 \u2014 Quick Wins',time:'Weeks 1\u20134'},
+  2:{text:'#E65100',label:'Phase 2 \u2014 Core Infrastructure',time:'Weeks 4\u201310'},
+  3:{text:'#6A1B9A',label:'Phase 3 \u2014 Growth Engines',time:'Weeks 10\u201318'},
+  4:{text:'#AD1457',label:'Phase 4 \u2014 Advanced Capabilities',time:'Weeks 18\u201330'},
+  5:{text:'#455A64',label:'Backlog \u2014 Operational Improvements',time:'Prioritize as needed'}
 };
-var STATUS_ICONS = { complete: "\u2713", in_progress: "\u25B6", not_started: "\u25CB" };
-var STATUS_LABELS = { complete: 'Complete', in_progress: 'In Progress', not_started: 'Not Started' };
-var EFFORT_LABELS = ['', 'Very Low', 'Low', 'Medium', 'High', 'Very High'];
-var ROI_LABELS = ['', 'Low', 'Moderate', 'Good', 'High', 'Very High'];
-var initiatives = [];
-var state = { phase: 0, status: 'all', sort: 'default', expanded: null };
+const STATUS_CFG = {
+  complete:{label:'Complete',color:'#2E7D32',bg:'#E8F5E9',icon:'\u2713'},
+  in_progress:{label:'In Progress',color:'#1565C0',bg:'#E3F2FD',icon:'\u25B6'},
+  under_review:{label:'Under Review',color:'#E65100',bg:'#FFF3E0',icon:'\u25CE'},
+  not_started:{label:'Not Started',color:'#78909C',bg:'#ECEFF1',icon:'\u25CB'}
+};
 
-function dots(filled, muted) {
-  var html = '';
-  for (var i = 0; i < 5; i++) {
-    var cls = i < filled ? (muted ? 'filled muted' : 'filled') : 'empty';
-    html += '<span class="' + cls + '">\u25CF</span>';
-  }
-  return html;
-}
+let allData = [];
+let expanded = null;
 
-function getFiltered() {
-  var items = initiatives.slice();
-  if (state.phase > 0) items = items.filter(function(i) { return i.phase === state.phase; });
-  if (state.status !== 'all') items = items.filter(function(i) { return i.status === state.status; });
-  items.sort(function(a, b) {
-    if (state.sort === 'roi') return b.roi - a.roi;
-    if (state.sort === 'effort') return a.effort - b.effort;
-    if (a.status === 'complete' && b.status !== 'complete') return -1;
-    if (b.status === 'complete' && a.status !== 'complete') return 1;
-    return a.id - b.id;
-  });
-  return items;
-}
-
-function groupByPhase(items) {
-  var groups = {};
-  items.forEach(function(item) {
-    if (!groups[item.phase]) groups[item.phase] = [];
-    groups[item.phase].push(item);
-  });
-  return groups;
-}
-
-function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-function renderCard(item) {
-  var isComplete = item.status === 'complete';
-  var isOpen = state.expanded === item.id;
-  var pc = PHASE_CONFIG[item.phase] || PHASE_CONFIG[1];
-  var stripeColor = isComplete ? '#2E7D32' : item.status === 'in_progress' ? '#E65100' : '#888';
-  var cardClass = 'card' + (isComplete ? ' complete-card' : '') + (isOpen ? ' expanded' : '');
-  var statusLabel = STATUS_ICONS[item.status] + ' ' + STATUS_LABELS[item.status] + (isComplete && item.completedDate ? ' \u2014 ' + esc(item.completedDate) : '');
-  var expandedHTML = '';
-  if (isOpen) {
-    var stepsHTML = item.steps.map(function(step, i) {
-      var numBg = isComplete ? '#2E7D32' : pc.badge;
-      var numContent = isComplete ? '\u2713' : (i + 1);
-      var numClass = isComplete ? 'step-number complete-step' : 'step-number';
-      return '<div class="step"><span class="' + numClass + '" style="background:' + numBg + '">' + numContent + '</span><span class="step-text">' + esc(step) + '</span></div>';
-    }).join('');
-    expandedHTML = '<div class="card-expanded show"><h4 class="steps-title">' + (isComplete ? 'What Was Delivered' : 'Step-by-Step Execution') + '</h4>' + stepsHTML + '<div class="value-box"><div class="value-label">Team Value</div><div class="value-text">' + esc(item.value) + '</div></div><div class="card-owner"><strong>Owner:</strong> ' + esc(item.owner) + '</div></div>';
-  }
-  var bgStyle = isComplete ? 'background:var(--green-light);border-color:var(--green-border);' : isOpen ? 'background:' + pc.bg + ';border-color:' + pc.border + ';' : '';
-  return '<div class="' + cardClass + '" style="' + bgStyle + '" onclick="toggleCard(' + item.id + ')"><div class="card-stripe" style="background:' + stripeColor + '"></div><div class="card-body"><div class="card-main"><div class="card-content"><div class="card-meta"><span class="card-category">' + esc(item.category) + '</span><span class="status-badge status-' + item.status + '">' + statusLabel + '</span></div><h3 class="card-name ' + (isComplete ? 'complete' : '') + '">' + esc(item.name) + '</h3><p class="card-desc">' + esc(item.description) + '</p></div><div class="card-metrics"><div class="metric"><div class="metric-label">Effort</div><div class="metric-dots">' + dots(item.effort, isComplete) + '</div><div class="metric-text">' + EFFORT_LABELS[item.effort] + '</div></div><div class="metric"><div class="metric-label">ROI</div><div class="metric-dots">' + dots(item.roi, isComplete) + '</div><div class="metric-text">' + ROI_LABELS[item.roi] + '</div></div><div class="metric"><div class="metric-label">Time</div><div class="metric-time">' + esc(item.time) + '</div></div></div></div></div>' + expandedHTML + '</div>';
-}
-
-function render() {
-  var total = initiatives.length;
-  var completed = initiatives.filter(function(i) { return i.status === 'complete'; }).length;
-  var inProgress = initiatives.filter(function(i) { return i.status === 'in_progress'; }).length;
-  var notStarted = initiatives.filter(function(i) { return i.status === 'not_started'; }).length;
-  var pct = total ? Math.round((completed / total) * 100) : 0;
-  var filtered = getFiltered();
-  var groups = groupByPhase(filtered);
-
-  var phaseButtons = [
-    { l: 'All', v: 0 }, { l: 'Quick Wins', v: 1 }, { l: 'Core Infra', v: 2 }, { l: 'Growth', v: 3 }, { l: 'Advanced', v: 4 }
-  ].map(function(b) { return '<button class="filter-btn ' + (state.phase === b.v ? 'active' : '') + '" onclick="setFilter(\'phase\',' + b.v + ')">' + b.l + '</button>'; }).join('');
-
-  var statusButtons = [
-    { l: 'All', v: 'all' }, { l: '\u2713 Complete', v: 'complete' }, { l: '\u25B6 In Progress', v: 'in_progress' }, { l: 'Not Started', v: 'not_started' }
-  ].map(function(b) { return '<button class="filter-btn ' + (state.status === b.v ? 'active' : '') + '" onclick="setFilter(\'status\',\'' + b.v + '\')">' + b.l + '</button>'; }).join('');
-
-  var sortButtons = [
-    { l: 'Roadmap Order', v: 'default' }, { l: 'Highest ROI', v: 'roi' }, { l: 'Lowest Effort', v: 'effort' }
-  ].map(function(b) { return '<button class="filter-btn ' + (state.sort === b.v ? 'active' : '') + '" onclick="setFilter(\'sort\',\'' + b.v + '\')">' + b.l + '</button>'; }).join('');
-
-  var cardsHTML = '';
-  [1, 2, 3, 4].forEach(function(p) {
-    if (!groups[p]) return;
-    var pc = PHASE_CONFIG[p];
-    cardsHTML += '<div class="phase-group"><div class="phase-header"><span class="phase-badge" style="background:' + pc.badge + '">' + pc.label + '</span><span class="phase-title">' + pc.name + '</span><span class="phase-time">' + pc.time + '</span></div>' + groups[p].map(renderCard).join('') + '</div>';
-  });
-  if (!cardsHTML) cardsHTML = '<div class="empty-state">No initiatives match the current filters.</div>';
-
-  document.getElementById('app').innerHTML =
-    '<h1>UptimeHealth AI Initiatives Roadmap</h1>' +
-    '<p class="subtitle">' + total + ' initiatives across 4 phases</p>' +
-    '<div class="progress-card"><div class="progress-header"><span>Overall Progress</span><span class="progress-pct">' + pct + '%</span></div><div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div><div class="progress-legend"><div class="legend-item"><div class="legend-dot" style="background:#2E7D32"></div><strong>' + completed + '</strong>&nbsp;Complete</div><div class="legend-item"><div class="legend-dot" style="background:#FB8C00"></div><strong>' + inProgress + '</strong>&nbsp;In Progress</div><div class="legend-item"><div class="legend-dot" style="background:#ccc"></div><strong>' + notStarted + '</strong>&nbsp;Not Started</div></div></div>' +
-    '<div class="filter-row"><span class="filter-label">Phase</span>' + phaseButtons + '</div>' +
-    '<div class="filter-row"><span class="filter-label">Status</span>' + statusButtons + '</div>' +
-    '<div class="filter-row" style="margin-bottom:32px"><span class="filter-label">Sort</span>' + sortButtons + '</div>' +
-    cardsHTML +
-    '<div class="info-box revops"><h3>Russ\'s RevOps Agent Architecture \u2014 Threaded Throughout</h3><p>The multi-agent RevOps vision (Data Agent, Reporting Agent, Pipeline Agent, Growth Agent) isn\'t a separate initiative \u2014 it\'s the architecture that emerges as you build Phases 1\u20133. The Data Agent is the CRM Hygiene project. The Reporting Agent is the Partner Health + content reports. The Pipeline Agent is the MQL\u2192SQL automation. The Growth Agent is the marketing optimization + service org research.</p></div>' +
-    '<div class="info-box principle"><strong>Key principle:</strong> Each phase delivers standalone value, but also lays infrastructure for the next. Phase 1 quick wins build team confidence and data foundations. Phase 2 creates the pipes. Phase 3 turns those pipes into growth engines. Phase 4 builds competitive moats. Don\'t skip ahead \u2014 the compounding is the strategy.</div>';
-}
-
-function toggleCard(id) {
-  state.expanded = state.expanded === id ? null : id;
-  render();
-}
-function setFilter(key, val) {
-  state[key] = val;
-  render();
-}
-
-function loadData() {
-  Papa.parse(SHEET_URL, {
+function fetchData() {
+  Papa.parse(CSV_URL, {
     download: true,
     header: true,
     skipEmptyLines: true,
     complete: function(results) {
-      if (results.data.length === 0) {
-        document.getElementById('app').innerHTML = '<div class="error-box"><h2>No data found</h2><p>The sheet returned no rows. Make sure:<br>1. The Google Sheet is published to web (File \u2192 Share \u2192 Publish to web)<br>2. The "Initiatives" tab has data starting in row 2<br>3. Column headers match exactly: ID, Phase, Initiative Name, Category, Owner, Effort (1-5), Time Estimate, ROI (1-5), Status, Completed Date, Description, Steps (separate with |), Team Value</p></div>';
-        return;
-      }
-      initiatives = results.data.map(function(row) {
-        return {
-          id: parseInt(row['ID']) || 0,
-          phase: parseInt(row['Phase']) || 1,
-          name: (row['Initiative Name'] || '').trim(),
-          category: (row['Category'] || '').trim(),
-          owner: (row['Owner'] || '').trim(),
-          effort: parseInt(row['Effort (1-5)']) || 1,
-          time: (row['Time Estimate'] || '').trim(),
-          roi: parseInt(row['ROI (1-5)']) || 1,
-          status: (row['Status'] || 'not_started').trim().toLowerCase().replace(/ /g, '_'),
-          completedDate: (row['Completed Date'] || '').trim(),
-          description: (row['Description'] || '').trim(),
-          steps: (row['Steps (separate with |)'] || '').split('|').map(function(s) { return s.trim(); }).filter(Boolean),
-          value: (row['Team Value'] || '').trim()
-        };
-      }).filter(function(i) { return i.name; });
+      allData = results.data.filter(r => r['ID'] && r['Initiative Name']);
       render();
     },
-    error: function(err) {
-      document.getElementById('app').innerHTML = '<div class="error-box"><h2>Connection Error</h2><p>Could not reach Google Sheets. Make sure the sheet is published to web:<br><br>1. Open your Google Sheet<br>2. Go to File \u2192 Share \u2192 Publish to web<br>3. Select "Initiatives" tab and "CSV" format<br>4. Click Publish</p></div>';
+    error: function() {
+      document.getElementById('app').innerHTML = `<div class="setup-msg"><h2>\u2699\uFE0F Connect Your Google Sheet</h2><p>Could not load data. Make sure the sheet is published to the web (File \u2192 Share \u2192 Publish to web) as CSV format for the "Initiatives" sheet.</p></div>`;
     }
   });
 }
 
-loadData();
+function render(phaseFilter, statusFilter, sortBy) {
+  phaseFilter = phaseFilter || 'all';
+  statusFilter = statusFilter || 'all';
+  sortBy = sortBy || 'phase';
+
+  let items = allData.map(r => ({
+    id: r['ID'],
+    phase: parseInt(r['Phase']) || 1,
+    name: r['Initiative Name'] || '',
+    category: r['Category'] || '',
+    owner: r['Owner'] || '',
+    effort: parseInt(r['Effort (1-5)']) || 1,
+    time: r['Time Estimate'] || '',
+    roi: parseInt(r['ROI (1-5)']) || 1,
+    status: (r['Status'] || 'not_started').trim(),
+    completedDate: r['Completed Date'] || '',
+    description: r['Description'] || '',
+    steps: (r['Steps (separate with |)'] || '').split('|').filter(s => s.trim()),
+    value: r['Team Value'] || '',
+    submittedBy: r['Submitted By (Q2 Ops)'] || ''
+  }));
+
+  let filtered = items.filter(i => {
+    if (phaseFilter !== 'all' && i.phase !== parseInt(phaseFilter)) return false;
+    if (statusFilter !== 'all' && i.status !== statusFilter) return false;
+    return true;
+  });
+
+  if (sortBy === 'roi') filtered.sort((a,b) => b.roi - a.roi);
+  else if (sortBy === 'effort') filtered.sort((a,b) => a.effort - b.effort);
+  else filtered.sort((a,b) => a.phase - b.phase || parseInt(a.id) - parseInt(b.id));
+
+  const total = items.length;
+  const complete = items.filter(i => i.status === 'complete').length;
+  const inProgress = items.filter(i => i.status === 'in_progress').length;
+  const underReview = items.filter(i => i.status === 'under_review').length;
+  const notStarted = items.filter(i => i.status === 'not_started').length;
+  const pct = total ? Math.round((complete/total)*100) : 0;
+  const q2Count = items.filter(i => i.submittedBy).length;
+  const phases = [...new Set(items.map(i => i.phase))].sort((a,b) => a - b);
+
+  // Group
+  const grouped = {};
+  filtered.forEach(i => {
+    const cfg = PHASE_CFG[i.phase] || PHASE_CFG[4];
+    const key = i.phase;
+    if (!grouped[key]) grouped[key] = {phase:i.phase, label:cfg.label, time:cfg.time, color:cfg.text, items:[]};
+    // Separate completed items
+    if (i.status === 'complete' && phaseFilter === 'all' && statusFilter === 'all') {
+      if (!grouped[0]) grouped[0] = {phase:0, label:'Completed', time:'', color:'#2E7D32', items:[]};
+      grouped[0].items.push(i);
+    } else {
+      grouped[key].items.push(i);
+    }
+  });
+  // Remove empty phase groups that lost items to "Completed"
+  Object.keys(grouped).forEach(k => { if (grouped[k].items.length === 0) delete grouped[k]; });
+
+  let html = `<h1>AI & Automation Initiatives Roadmap</h1>
+<p class="subtitle">UptimeHealth \u2014 ${total} initiatives across ${phases.length} phases \u2022 Live from Google Sheets</p>
+<div class="progress-box">
+  <div class="progress-header"><span class="progress-label">Overall Progress</span><span class="progress-pct">${complete}/${total} complete (${pct}%)</span></div>
+  <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+  <div class="status-row">`;
+
+  [{k:'complete',c:complete},{k:'in_progress',c:inProgress},{k:'under_review',c:underReview},{k:'not_started',c:notStarted}].forEach(s => {
+    const cfg = STATUS_CFG[s.k];
+    html += `<div class="status-badge"><span class="status-icon" style="background:${cfg.bg};color:${cfg.color}">${cfg.icon}</span><span style="color:#555">${cfg.label}: <strong style="color:${cfg.color}">${s.c}</strong></span></div>`;
+  });
+
+  html += `</div></div>`;
+
+  if (q2Count > 0) {
+    html += `<div class="q2-banner"><strong>Q2 Update:</strong> ${q2Count} submissions from the Operations team integrated. Overlapping ideas combined. All new items marked <span class="q2-badge">Under Review</span>. Expand any item to see the original submitter(s).</div>`;
+  }
+
+  html += `<div class="filters">
+    <select id="phaseFilter" onchange="applyFilters()">
+      <option value="all">All Phases</option>`;
+  phases.forEach(p => {
+    const cfg = PHASE_CFG[p] || {label:'Phase '+p};
+    html += `<option value="${p}" ${phaseFilter==p?'selected':''}>${cfg.label.split(' \u2014 ')[0] || cfg.label}</option>`;
+  });
+  html += `</select>
+    <select id="statusFilter" onchange="applyFilters()">
+      <option value="all">All Statuses</option>`;
+  Object.entries(STATUS_CFG).forEach(([k,v]) => {
+    html += `<option value="${k}" ${statusFilter==k?'selected':''}>${v.label}</option>`;
+  });
+  html += `</select>
+    <select id="sortBy" onchange="applyFilters()">
+      <option value="phase" ${sortBy=='phase'?'selected':''}>Sort: Phase Order</option>
+      <option value="roi" ${sortBy=='roi'?'selected':''}>Sort: Highest ROI</option>
+      <option value="effort" ${sortBy=='effort'?'selected':''}>Sort: Lowest Effort</option>
+    </select>
+  </div>`;
+
+  const sortedKeys = Object.keys(grouped).sort((a,b) => parseInt(a) - parseInt(b));
+  sortedKeys.forEach(key => {
+    const g = grouped[key];
+    html += `<div class="phase-group"><div class="phase-header">
+      <span class="phase-title" style="color:${g.color}">${g.label}</span>
+      ${g.time ? `<span class="phase-time">${g.time}</span>` : ''}
+      <span class="phase-count">(${g.items.length} items)</span>
+    </div>`;
+
+    g.items.forEach(item => {
+      const sc = STATUS_CFG[item.status] || STATUS_CFG.not_started;
+      const isOpen = expanded === item.id;
+      const dots = n => '\u25CF'.repeat(n) + '\u25CB'.repeat(5-n);
+      const stars = n => '\u2605'.repeat(n) + '\u2606'.repeat(5-n);
+
+      html += `<div class="card" style="border-left:4px solid ${sc.color}" onclick="toggle('${item.id}')">
+        <div class="card-header">
+          <span class="card-arrow">${isOpen?'\u25BC':'\u25B6'}</span>
+          <div class="card-body">
+            <div class="card-title-row">
+              <span class="card-name">${item.name}</span>
+              <span class="card-status" style="background:${sc.bg};color:${sc.color}">${sc.label}${item.completedDate?' \u2014 '+item.completedDate:''}</span>
+            </div>
+            <div class="card-meta">
+              <span>${item.category}</span>
+              <span>Effort: ${dots(item.effort)}</span>
+              <span>ROI: ${stars(item.roi)}</span>
+              <span>${item.time}</span>
+            </div>
+          </div>
+        </div>`;
+
+      if (isOpen) {
+        html += `<div class="card-detail">`;
+        if (item.submittedBy) {
+          html += `<div class="submitter-box"><strong>Submitted by:</strong> ${item.submittedBy}</div>`;
+        }
+        html += `<p class="card-desc">${item.description}</p>`;
+        html += `<div class="steps-label">${item.status==='complete'?'What Was Delivered':'Step-by-Step Execution'}</div>`;
+        item.steps.forEach((step, i) => {
+          html += `<div class="step"><span class="step-num" style="color:${item.status==='complete'?'#2E7D32':'#bbb'}">${item.status==='complete'?'\u2713':(i+1)+'.'}</span><span>${step.trim()}</span></div>`;
+        });
+        html += `<div class="value-box"><div class="value-label">Value</div><p class="value-text">${item.value}</p></div>`;
+        html += `<div class="owner-line"><strong>Owner:</strong> ${item.owner}</div>`;
+        html += `</div>`;
+      }
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `<div class="arch-box"><h3>RevOps Agent Architecture \u2014 Threaded Throughout</h3><p>The multi-agent RevOps vision (Data Agent, Reporting Agent, Pipeline Agent, Growth Agent) isn't a separate initiative \u2014 it's the architecture that emerges as you build Phases 1\u20133. The Data Agent is the CRM Hygiene project. The Reporting Agent is the Partner Health + content reports. The Pipeline Agent is the MQL\u2192SQL automation. The Growth Agent is the marketing optimization + service org research.</p></div>`;
+
+  document.getElementById('app').innerHTML = html;
+}
+
+function toggle(id) {
+  expanded = expanded === id ? null : id;
+  applyFilters();
+}
+
+function applyFilters() {
+  const pf = document.getElementById('phaseFilter')?.value || 'all';
+  const sf = document.getElementById('statusFilter')?.value || 'all';
+  const sb = document.getElementById('sortBy')?.value || 'phase';
+  render(pf, sf, sb);
+}
+
+fetchData();
 </script>
 </body>
 </html>
